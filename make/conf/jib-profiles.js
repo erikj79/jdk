@@ -1110,9 +1110,7 @@ var getJibProfilesDependencies = function (input, common) {
         pandoc_version = "2.3.1+1.0";
     }
 
-    var makeBinDir = (input.build_os == "windows"
-        ? input.get("gnumake", "install_path") + "/cygwin/bin"
-        : input.get("gnumake", "install_path") + "/bin");
+    var makeBinDir = input.get("gnumake", "install_path") + "/bin";
 
     var dependencies = {
         boot_jdk: boot_jdk,
@@ -1177,7 +1175,7 @@ var getJibProfilesDependencies = function (input, common) {
         gnumake: {
             organization: common.organization,
             ext: "tar.gz",
-            revision: "4.0+1.0",
+            revision: (input.build_os == "windows" ? "4.3+1.0" : "4.0+1.0"),
 
             module: (input.build_os == "windows"
                 ? "gnumake-" + input.build_osenv_platform
@@ -1189,7 +1187,7 @@ var getJibProfilesDependencies = function (input, common) {
                 "MAKE": makeBinDir + "/make"
             },
 
-            environment_path: makeBinDir
+            environment_path: makeBinDir,
         },
 
         autoconf: {
